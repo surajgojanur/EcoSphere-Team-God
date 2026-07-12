@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 import App from "./App";
 
 describe("App", () => {
-  it("renders the EcoSphere development baseline", async () => {
+  it("renders the EcoSphere dashboard shell", async () => {
     vi.stubGlobal(
       "fetch",
       vi.fn(() =>
@@ -18,12 +19,17 @@ describe("App", () => {
       )
     );
 
-    render(<App />);
+    render(
+      <MemoryRouter initialEntries={["/dashboard"]}>
+        <App />
+      </MemoryRouter>
+    );
 
     expect(
       await screen.findByRole("heading", {
-        name: /EcoSphere ESG Management Platform/i
+        name: /ESG Command Center/i
       })
     ).toBeInTheDocument();
+    expect(screen.getByRole("navigation", { name: /Primary/i })).toBeInTheDocument();
   });
 });

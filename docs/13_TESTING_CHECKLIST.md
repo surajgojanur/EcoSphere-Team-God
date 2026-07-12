@@ -70,6 +70,29 @@ Validation notes from 2026-07-12 on Fedora 44 with SELinux Enforcing:
 - [ ] Reports: Generate button shows loading state, then renders data
 - [ ] Settings: toggling ESG Configuration switch persists on page refresh
 
+## 3A. UI and GSAP Foundation Testing
+
+- [x] `docker compose exec -T frontend npm test` passes
+- [x] `docker compose exec -T frontend npm run typecheck` passes
+- [x] `docker compose exec -T frontend npm run build` passes
+- [x] Docker frontend service remains healthy
+- [x] Application loads at `http://localhost:3000/dashboard`
+- [x] No React key warnings in browser validation
+- [x] No GSAP target-not-found warnings in browser validation
+- [x] Navigation works between dashboard and placeholder routes
+- [x] Mobile drawer opens and Escape closes it
+- [x] Modal opens and Escape closes it
+- [x] Skip-to-content link is first keyboard focus target
+- [x] Reduced-motion rendering reveals content without large transforms
+- [x] 375px mobile layout verified without horizontal overflow
+- [x] 768px tablet layout verified without horizontal overflow
+- [x] 1440px desktop layout verified
+- [x] 404 route renders polished fallback
+- [x] Route changes do not produce console warnings after repeated navigation
+- [x] No-FOUC final visible state verified after animation completion
+- [x] StrictMode duplicate animation warnings not present in browser validation
+- [ ] Dashboard score cards render live values after dashboard API exists
+
 ## 4. Validation Testing
 
 - [ ] Department code uniqueness enforced (duplicate returns field error, not generic 500)
