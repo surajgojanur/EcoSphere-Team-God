@@ -28,6 +28,14 @@ function renderDashboard() {
   );
 }
 
+function renderRoute(path: string) {
+  return render(
+    <MemoryRouter initialEntries={[path]}>
+      <App />
+    </MemoryRouter>
+  );
+}
+
 describe("App", () => {
   beforeEach(() => {
     mockHealthFetch();
@@ -42,6 +50,24 @@ describe("App", () => {
       })
     ).toBeInTheDocument();
     expect(screen.getByRole("navigation", { name: /Primary/i })).toBeInTheDocument();
+  });
+
+  it("renders the gamification workspace instead of the placeholder", async () => {
+    renderRoute("/gamification/challenges");
+
+    expect(await screen.findByRole("heading", { name: /Challenges/i })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: /Challenges/i })).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("heading", { name: /Gamification engine/i })).toBeInTheDocument();
+    expect(screen.queryByText(/Workspace foundation/i)).not.toBeInTheDocument();
+  });
+
+  it("routes demo login selections to the dashboard", async () => {
+    const user = userEvent.setup();
+    renderRoute("/login");
+
+    await user.click(await screen.findByRole("button", { name: /Admin/i }));
+
+    expect(await screen.findByRole("heading", { name: /ESG Command Center/i })).toBeInTheDocument();
   });
 
   it("traps modal focus, closes with Escape, and restores focus", async () => {

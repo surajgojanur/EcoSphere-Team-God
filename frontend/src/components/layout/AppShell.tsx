@@ -165,8 +165,9 @@ export function AppShell({ children }: { children: ReactNode }) {
         </Drawer>
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <header className="top-header sticky top-0 z-30 border-b border-[var(--border)] bg-[rgba(17,19,24,0.86)] px-4 py-3 backdrop-blur md:px-6">
-            <div className="flex items-center gap-3">
+          <header className="top-header sticky top-0 z-30 border-b border-[var(--border)] bg-[var(--surface-header)] px-[var(--space-page-x)] py-3 backdrop-blur">
+            <div className="mx-auto w-full max-w-[var(--content-max)]">
+            <div className="flex items-center gap-2 sm:gap-3">
               <IconButton label="Open navigation" className="lg:hidden" onClick={() => setMobileOpen(true)}>
                 <Menu aria-hidden="true" className="h-4 w-4" />
               </IconButton>
@@ -181,7 +182,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 </nav>
                 <p className="truncate text-sm font-medium text-white sm:mt-1">{routeMeta.title}</p>
               </div>
-              <label className="hidden w-full max-w-xs items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-3 lg:flex">
+              <label className="hidden w-full max-w-xs items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-primary)] px-3 xl:flex">
                 <Search aria-hidden="true" className="h-4 w-4 text-[var(--text-muted)]" />
                 <Input aria-label="Search ESG records" className="border-0 bg-transparent px-0 focus-visible:outline-0" placeholder="Search ESG records" />
               </label>
@@ -199,10 +200,10 @@ export function AppShell({ children }: { children: ReactNode }) {
                   key={item.path}
                   to={item.path}
                   className={({ isActive }) =>
-                    `rounded-full px-3 py-1.5 text-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-blue)] ${
+                    `shrink-0 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)] ${
                       isActive || location.pathname.startsWith(item.path.split("/")[1] ? `/${item.path.split("/")[1]}` : item.path)
-                        ? "bg-[rgba(63,207,110,0.14)] text-[var(--accent-green)]"
-                        : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-alt)] hover:text-white"
+                        ? "border-[var(--status-success-border)] bg-[var(--status-success-bg)] text-[var(--status-success-text)]"
+                        : "border-transparent text-[var(--text-secondary)] hover:bg-[var(--surface-nested)] hover:text-white"
                     }`
                   }
                 >
@@ -210,10 +211,13 @@ export function AppShell({ children }: { children: ReactNode }) {
                 </NavLink>
               ))}
             </nav>
+            </div>
           </header>
 
-          <main id="main-content" className="min-w-0 flex-1 px-4 py-5 md:px-6 lg:px-8">
-            <PageTransition routeKey={location.pathname}>{children}</PageTransition>
+          <main id="main-content" className="min-w-0 flex-1 px-[var(--space-page-x)] py-[var(--space-page-y)]">
+            <div className="mx-auto w-full max-w-[var(--content-max)]">
+              <PageTransition routeKey={location.pathname}>{children}</PageTransition>
+            </div>
           </main>
         </div>
       </div>
@@ -241,7 +245,7 @@ function SidebarContent({
   return (
     <>
       <Link to="/dashboard" className="brand-mark flex items-center gap-3 border-b border-[var(--border)] p-4" onClick={onNavigate}>
-        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[rgba(63,207,110,0.14)] text-[var(--accent-green)]">
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[var(--radius-md)] bg-[var(--status-success-bg)] text-[var(--status-success-text)]">
           <BrandIcon aria-hidden="true" className="h-6 w-6" />
         </span>
         <span className="brand-copy min-w-0">
@@ -265,16 +269,16 @@ function SidebarContent({
                     title={collapsed ? item.label : undefined}
                     onClick={onNavigate}
                     className={({ isActive }) =>
-                      `nav-item drawer-item relative flex min-h-11 items-center gap-3 overflow-hidden rounded-lg px-3 text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-blue)] ${
+                      `nav-item drawer-item relative flex min-h-11 items-center gap-3 overflow-hidden rounded-[var(--radius-sm)] px-3 text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)] ${
                         isActive
                           ? "text-white"
-                          : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-alt)] hover:text-white"
+                          : "text-[var(--text-secondary)] hover:bg-[var(--surface-nested)] hover:text-white"
                       }`
                     }
                   >
                     {({ isActive }) => (
                       <>
-                        <span className={`active-indicator absolute inset-0 origin-left rounded-lg ${isActive ? "bg-[rgba(63,207,110,0.14)]" : ""}`} />
+                        <span className={`active-indicator absolute inset-0 origin-left rounded-[var(--radius-sm)] ${isActive ? "bg-[var(--status-success-bg)]" : ""}`} />
                         <span className={`relative z-10 grid h-8 w-8 shrink-0 place-items-center rounded-md ${isActive ? "text-[var(--accent-green)]" : ""}`}>
                           <Icon aria-hidden="true" className="h-4 w-4" />
                         </span>
@@ -318,13 +322,13 @@ function HealthIndicator({ status }: { status: "loading" | "connected" | "error"
   );
 
   const tone = {
-    loading: "bg-[rgba(245,197,66,0.16)] text-[var(--accent-yellow)]",
-    connected: "bg-[rgba(63,207,110,0.16)] text-[var(--accent-green)]",
-    error: "bg-[rgba(255,92,92,0.16)] text-[var(--accent-red)]"
+    loading: "border-[var(--status-warning-border)] bg-[var(--status-warning-bg)] text-[var(--status-warning-text)]",
+    connected: "border-[var(--status-success-border)] bg-[var(--status-success-bg)] text-[var(--status-success-text)]",
+    error: "border-[var(--status-danger-border)] bg-[var(--status-danger-bg)] text-[var(--status-danger-text)]"
   };
 
   return (
-    <span ref={ref} className={`hidden rounded-full px-2.5 py-1 text-xs font-medium sm:inline-flex ${tone[status]}`}>
+    <span ref={ref} className={`hidden rounded-full border px-2.5 py-1 text-xs font-medium sm:inline-flex ${tone[status]}`}>
       System {status}
     </span>
   );
