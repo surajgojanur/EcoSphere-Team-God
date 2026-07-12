@@ -231,5 +231,26 @@ Failure `400` (insufficient points):
 }
 ```
 
+## 12. Backend Phase 0 Contract Freeze
+
+The authoritative MVP API contract is now `contracts/openapi.yaml`; decisions are recorded in [18_BACKEND_DECISIONS](./18_BACKEND_DECISIONS.md).
+
+Approved changes and clarifications:
+
+- API base path remains `/api/v1`.
+- Only API roles are `ADMIN`, `ESG_MANAGER`, `EMPLOYEE`, and `AUDITOR`.
+- `SUSTAINABILITY_MANAGER` is not an API enum; the frontend may use "Sustainability Manager" as display text for `ESG_MANAGER`.
+- `HR_MANAGER` is not part of the MVP role model.
+- Auth endpoints are frozen to `POST /auth/signup`, `POST /auth/login`, and `GET /auth/me`.
+- No `/auth/register`, `/auth/refresh`, or `/auth/logout` endpoint exists in MVP.
+- Signup returns the created `EMPLOYEE` user without a token; frontend redirects to login.
+- Logout is frontend local/session token clearing.
+- All success and error responses include `meta.requestId`.
+- Field validation errors use `error.fields`.
+- Decimal values are serialized as JSON strings.
+- Product ESG Profiles, Diversity Snapshots, Training Records, operational-emission ingestion, reward redemption, CSV exports, and protected admin/demo jobs are in the MVP contract.
+- Proofs and documents are external HTTP/HTTPS URLs only; multipart upload, local file storage, and base64 upload are deferred.
+- PDF and Excel exports are deferred; CSV is the MVP export format.
+
 ---
 **Next:** [04_FRONTEND_PAGES.md](./04_FRONTEND_PAGES.md)
