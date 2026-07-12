@@ -6,6 +6,7 @@ import { PlaceholderPage } from "./pages/PlaceholderPage";
 import { AuthPage } from "./pages/AuthPage";
 import { GamificationPage } from "./pages/GamificationPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { PoliciesPage } from "./pages/PoliciesPage";
 
 const placeholderRoutes = [
   "/environmental/emission-factors",
@@ -13,7 +14,6 @@ const placeholderRoutes = [
   "/environmental/goals",
   "/social/csr-activities",
   "/social/participations",
-  "/governance/policies",
   "/governance/audits",
   "/governance/compliance",
   "/reports",
@@ -48,6 +48,14 @@ function App() {
         element={
           <ShellRoute>
             <DashboardPage />
+          </ShellRoute>
+        }
+      />
+      <Route
+        path="/governance/policies"
+        element={
+          <ShellRoute>
+            <PoliciesPage path="/governance/policies" />
           </ShellRoute>
         }
       />
