@@ -1,0 +1,18 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "3e8c3fcb-187d-4714-b3c6-111d1515e9d3",
+      "name": "Manufacturing",
+      "code": "MFG",
+      "status": "ACTIVE"
+    }
+  ],
+  "meta": {
+    "requestId": "015a7372-0161-42bb-b136-474f5975c4b8",
+    "page": 1,
+    "limit": 20,
+    "total": 42,
+    "totalPages": 3
+  }
+}
