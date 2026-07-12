@@ -59,3 +59,7 @@
 
 ---
 **Next:** [08_TASK_BOARD.md](./08_TASK_BOARD.md)
+
+## Backend MVP Implementation Note
+
+The API and database role enum is limited to `ADMIN`, `ESG_MANAGER`, `EMPLOYEE`, and `AUDITOR`. Frontend display text may call `ESG_MANAGER` “Sustainability Manager”, but transmitted values must remain `ESG_MANAGER`.

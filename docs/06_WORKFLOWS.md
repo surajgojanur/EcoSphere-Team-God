@@ -182,3 +182,7 @@ sequenceDiagram
 
 ---
 **Next:** [07_ROLE_PERMISSIONS.md](./07_ROLE_PERMISSIONS.md)
+
+## Backend MVP Implementation Note
+
+Persisted workflows now exist for signup/login, carbon accounting, operational emission ingestion, CSR and challenge approvals, policy publication/acknowledgement, audit transitions, compliance assignment/resolution, badge auto-award, reward redemption, notifications, score recomputation, dashboards, reports, and protected admin jobs.

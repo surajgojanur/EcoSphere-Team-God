@@ -129,3 +129,11 @@ stateDiagram-v2
 
 ---
 **Next:** [06_WORKFLOWS.md](./06_WORKFLOWS.md)
+
+## Backend MVP Implementation Note
+
+- Carbon emissions are calculated server-side from quantity and emission factor snapshots.
+- CSR approvals award POINTS; challenge approvals award XP.
+- Rewards consume either POINTS or XP according to reward currency.
+- Compliance `isOverdue` is backend-controlled and recomputed by a protected admin job.
+- Score formulas use the approved MVP assumptions in `docs/18_BACKEND_DECISIONS.md`.

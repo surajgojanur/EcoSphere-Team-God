@@ -9,16 +9,26 @@
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "node --test --import tsx tests/*.test.ts",
+    "test:unit": "node --test --import tsx tests/*.test.ts",
+    "test:integration": "node --test --import tsx tests/*.test.ts",
     "contract:validate": "node scripts/validate-contract.mjs",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate deploy"
+    "prisma:migrate": "prisma migrate deploy",
+    "seed": "tsx prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.12.0",
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
+    "csv-stringify": "^6.8.1",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.5.2",
     "helmet": "^8.1.0",
+    "jose": "^6.2.3",
     "morgan": "^1.10.0",
     "zod": "^4.0.5"
   },

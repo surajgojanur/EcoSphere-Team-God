@@ -208,3 +208,16 @@ and use externally managed secrets.
 
 ---
 **Next:** [13_TESTING_CHECKLIST.md](./13_TESTING_CHECKLIST.md)
+
+## Backend MVP Runtime Notes
+
+Backend runtime now requires a server-only `JWT_SECRET` of at least 32 characters. Keep this value out of frontend/Vite configuration.
+
+When backend dependencies change and the named Docker `backend_node_modules` volume is stale, refresh only dependency volumes:
+
+```bash
+docker compose run --rm backend npm ci
+docker compose restart backend
+```
+
+Do not use `docker compose down -v` for routine dependency refresh because it deletes PostgreSQL data.
