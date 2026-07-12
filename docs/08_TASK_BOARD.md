@@ -17,6 +17,25 @@
 
 ## 🔴 To Do
 
+### BACKEND-CONTRACT-01 — API and decision freeze
+- **Priority**: P0 · **Owner**: Backend/API contract owner · **Dependencies**: SETUP-00 · **Estimate**: 1h
+- **Contract**: [`../contracts/openapi.yaml`](../contracts/openapi.yaml)
+- **Decisions**: [18_BACKEND_DECISIONS](./18_BACKEND_DECISIONS.md)
+- Checklist:
+  - [x] Freeze backend role enum
+  - [x] Freeze auth endpoints and no-refresh/no-server-logout policy
+  - [x] Freeze API envelopes, request IDs, pagination, and decimal serialization
+  - [x] Freeze MVP model inventory
+  - [x] Freeze points/XP/reward redemption rules
+  - [x] Add Product ESG Profiles, operational emissions, diversity, training, scoring, reports, notifications, and admin jobs to the API contract
+  - [x] Add frontend reconciliation notes
+  - [x] Add deterministic contract validation script
+  - [ ] Implement Prisma schema
+  - [ ] Create migrations
+  - [ ] Implement authentication
+  - [ ] Implement business endpoints
+- **Acceptance Criteria**: OpenAPI contract validates and docs record decisions without implementing backend business logic.
+
 ### SETUP-01 — Repo + Docker Compose + Prisma init
 - **Priority**: P0 · **Owner**: Dev 1 · **Dependencies**: none · **Estimate**: 30 min
 - Checklist:

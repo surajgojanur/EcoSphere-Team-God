@@ -116,6 +116,23 @@ docker compose logs -f backend
 docker compose logs -f frontend
 ```
 
+Refresh dependency volumes after lockfile changes:
+
+```bash
+# When frontend/package-lock.json changes
+docker compose run --rm frontend npm ci
+docker compose restart frontend
+
+# When backend/package-lock.json changes
+docker compose run --rm backend npm ci
+docker compose restart backend
+```
+
+The Compose setup stores service dependencies in named `node_modules` volumes.
+Those volumes can retain older dependencies after `frontend/package-lock.json`
+or `backend/package-lock.json` changes. The commands above refresh only the
+affected dependency volume and restart that service.
+
 Stop:
 
 ```bash
@@ -129,6 +146,8 @@ docker compose down -v
 ```
 
 Warning: `docker compose down -v` deletes the local PostgreSQL named volume.
+Do not use `docker compose down -v` for routine dependency refresh because it
+also deletes PostgreSQL data.
 
 ## 8. Health Checks
 
@@ -153,10 +172,9 @@ Frontend:
   environment validation errors.
 - If `/ready` returns `503`, check `docker compose logs -f db` and confirm
   `DATABASE_URL` uses `db:5432`, not `localhost`.
-- If dependencies behave differently across machines, remove only the container
-  dependency volumes with `docker compose down -v` when you also intend to reset
-  the database, or remove the specific `backend_node_modules` /
-  `frontend_node_modules` volumes manually.
+- If dependencies behave differently across machines after a lockfile changes,
+  run the dependency refresh commands in §7. Use `docker compose down -v` only
+  when you deliberately intend to delete PostgreSQL data as well.
 
 ## 10. Fedora SELinux Notes
 
