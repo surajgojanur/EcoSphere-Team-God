@@ -154,10 +154,26 @@
 ### FE-01 — App shell, sidebar, top tab nav, layout
 - **Priority**: P0 · **Owner**: Dev 4 · **Dependencies**: AUTH-02 · **Estimate**: 45 min
 - Checklist:
-  - [ ] Sidebar matching wireframe sections
-  - [ ] Top module tab strip
+  - [x] Sidebar matching wireframe sections
+  - [x] Top module tab strip
   - [ ] `ProtectedRoute`, `RequireRole`
 - **Acceptance Criteria**: navigation matches wireframe screen 1
+
+### UI-GSAP-01 — Phase 1 UI and GSAP foundation
+- **Priority**: P0 · **Owner**: Dev 4 · **Dependencies**: SETUP-00 · **Estimate**: 2h
+- **Tracker**: [17_UI_GSAP_IMPLEMENTATION](./17_UI_GSAP_IMPLEMENTATION.md)
+- Checklist:
+  - [x] Install `gsap` and `@gsap/react`
+  - [x] Add centralized GSAP registration
+  - [x] Add motion tokens and reduced-motion strategy
+  - [x] Add application shell with responsive sidebar/header
+  - [x] Add route skeletons for all documented Phase 1 paths
+  - [x] Add reusable UI primitives
+  - [x] Add reusable motion primitives
+  - [x] Add dashboard preview with mock data boundary
+  - [x] Verify Docker frontend test/typecheck/build
+  - [x] Verify browser route, mobile drawer, Escape, reduced-motion and console checks
+- **Acceptance Criteria**: Phase 1 in `docs/17_UI_GSAP_IMPLEMENTATION.md` is implemented and verified without backend business logic.
 
 ### FE-02 — Dashboard page
 - **Priority**: P1 · **Owner**: Dev 4 · **Dependencies**: FE-01, DASH-01 · **Estimate**: 1h

@@ -94,5 +94,63 @@ Dark is the only theme in MVP (per wireframe). All colors above are already dark
 - Charts include a text-based data table alternative or `aria-label` summary
 - Minimum contrast ratio 4.5:1 for body text against backgrounds
 
+## 14. GSAP Architecture
+
+- GSAP is registered once in `frontend/src/lib/gsap.ts`.
+- Components import the configured `gsap` and `useGSAP` from that module only.
+- Use `useGSAP()` with a React ref scope for component animation.
+- Do not register GSAP plugins inside individual components.
+- Use `contextSafe()` for pointer, click, timeout or delayed callbacks that create animations after hook execution.
+- Use `revertOnUpdate` when route or state changes rebuild an animation.
+- ScrollTrigger is not used in Phase 1; add it only for long pages or meaningful section-based reveals.
+
+## 15. Motion Tokens
+
+Motion constants live in `frontend/src/styles/motion.ts`:
+
+- `duration.fast`, `duration.normal`, `duration.slow`
+- `stagger.tight`, `stagger.normal`, `stagger.relaxed`
+- `ease.enter`, `ease.exit`, `ease.emphasis`
+- `distance.small`, `distance.medium`, `distance.large`
+- `scale.hover`, `scale.press`
+
+Use these tokens rather than ad hoc animation numbers.
+
+## 16. Reduced-Motion Rules
+
+- Every GSAP animation must use `gsap.matchMedia()` for `prefers-reduced-motion`.
+- Reduced motion removes large travel, tilt, parallax and continuous motion.
+- Reduced motion may use short opacity transitions or immediate visibility.
+- Important content must never remain hidden if animation setup fails.
+- Focus outlines must not be animated away.
+
+## 17. Component Motion Patterns
+
+- App shell: one coordinated timeline for shell, brand, nav, header and dashboard cards.
+- Page transitions: short y/opacity reveal scoped to route content.
+- Sidebar active state: animate the active indicator without layout shift.
+- Drawer/modal: animate backdrop and panel together; Escape and backdrop click must close.
+- Cards: desktop pointer devices may use subtle lift/tilt; touch and reduced motion remain static.
+- Buttons: GSAP hover/press feedback is secondary to CSS focus-visible states.
+- Health/status changes: restrained color/label transition only; no infinite pulsing.
+
+## 18. Cleanup Rules
+
+- Let `useGSAP` context revert animations on unmount.
+- Remove all custom event listeners in returned cleanup functions.
+- Do not leave orphaned timelines, listeners or ScrollTriggers after route changes.
+- Avoid global selectors; select through a component scope or concrete refs.
+- Guard nullable refs before passing them to GSAP.
+
+## 19. Animation Anti-Patterns
+
+- Do not add animation because GSAP is available.
+- Do not use continuous floating on every card.
+- Do not use large horizontal sweeps or rapid flashing.
+- Do not block buttons, forms or navigation until animation completes.
+- Do not use ScrollTrigger on every CRUD page.
+- Do not animate layout-heavy properties when transform/opacity can solve the problem.
+- Do not make gamification motion dominate the enterprise ERP interface.
+
 ---
 **Next:** [12_DEPLOYMENT.md](./12_DEPLOYMENT.md)
