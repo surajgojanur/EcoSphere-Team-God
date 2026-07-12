@@ -2,9 +2,10 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import type { ReactNode } from "react";
 import { AppShell } from "./components/layout/AppShell";
 import { DashboardPage } from "./pages/DashboardPage";
-import { PlaceholderPage } from "./pages/PlaceholderPage";
+import { IntegratedResourcePage } from "./pages/IntegratedResourcePage";
 import { AuthPage } from "./pages/AuthPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { ProtectedRoute, PublicOnlyRoute, RequireRole } from "./auth/routes";
 
 const placeholderRoutes = [
   "/environmental/emission-factors",
@@ -27,20 +28,22 @@ const placeholderRoutes = [
 ];
 
 function ShellRoute({ children }: { children: ReactNode }) {
-  return <AppShell>{children}</AppShell>;
+  return <ProtectedRoute><AppShell>{children}</AppShell></ProtectedRoute>;
 }
 
 function PlaceholderRoute() {
   const location = useLocation();
-  return <PlaceholderPage path={location.pathname} />;
+  const adminOnly = ["/admin/departments", "/admin/categories", "/settings"];
+  const content = <IntegratedResourcePage path={location.pathname} />;
+  return adminOnly.includes(location.pathname) ? <RequireRole allowed={["ADMIN"]}>{content}</RequireRole> : content;
 }
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
-      <Route path="/login" element={<AuthPage mode="login" />} />
-      <Route path="/register" element={<AuthPage mode="register" />} />
+      <Route path="/login" element={<PublicOnlyRoute><AuthPage mode="login" /></PublicOnlyRoute>} />
+      <Route path="/register" element={<PublicOnlyRoute><AuthPage mode="register" /></PublicOnlyRoute>} />
       <Route
         path="/dashboard"
         element={

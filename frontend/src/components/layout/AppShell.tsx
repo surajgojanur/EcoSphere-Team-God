@@ -8,6 +8,10 @@ import { useBackendHealth } from "../../hooks/useBackendHealth";
 import { Button, IconButton, Input } from "../ui/primitives";
 import { Drawer, Modal } from "../ui/overlays";
 import { PageTransition } from "../motion/Motion";
+import { useAuth } from "../../auth/useAuth";
+import { useApiResource } from "../../hooks/useApiResource";
+import { initials, roleLabel } from "../../utils/format";
+import type { UserRole } from "../../api/client";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const location = useLocation();
@@ -17,7 +21,10 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const auth = useAuth();
   const backendHealth = useBackendHealth();
+  const unread = useApiResource<{ unreadCount: number }>("/notifications/unread-count");
   const breadcrumbs = useMemo(() => getBreadcrumbs(location.pathname), [location.pathname]);
   const routeMeta = getRouteMeta(location.pathname);
 
@@ -151,7 +158,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </a>
       <div className="flex min-h-screen">
         <aside ref={sidebarRef} className="hidden w-[280px] shrink-0 border-r border-[var(--border)] bg-[var(--bg-elevated)] lg:flex lg:flex-col">
-          <SidebarContent collapsed={collapsed} onNavigate={() => undefined} navRef={navRef} />
+          <SidebarContent collapsed={collapsed} onNavigate={() => undefined} navRef={navRef} role={auth.user?.role} />
           <div className="border-t border-[var(--border)] p-4">
             <Button className="w-full justify-center" variant="ghost" onClick={() => setCollapsed((value) => !value)}>
               {collapsed ? <ChevronRight aria-hidden="true" className="h-4 w-4" /> : <ChevronLeft aria-hidden="true" className="h-4 w-4" />}
@@ -161,7 +168,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </aside>
 
         <Drawer open={mobileOpen} title="EcoSphere navigation" onClose={() => setMobileOpen(false)}>
-          <SidebarContent collapsed={false} onNavigate={() => setMobileOpen(false)} mobile />
+          <SidebarContent collapsed={false} onNavigate={() => setMobileOpen(false)} mobile role={auth.user?.role} />
         </Drawer>
 
         <div className="flex min-w-0 flex-1 flex-col">
@@ -186,11 +193,14 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <Input aria-label="Search ESG records" className="border-0 bg-transparent px-0 focus-visible:outline-0" placeholder="Search ESG records" />
               </label>
               <HealthIndicator status={backendHealth.status} />
-              <IconButton label="Notifications">
+              <IconButton label="Notifications" onClick={() => setNotificationsOpen(true)} className="relative">
                 <Bell aria-hidden="true" className="h-4 w-4" />
+                {unread.status === "success" && unread.data.unreadCount > 0 ? (
+                  <span className="absolute -right-1 -top-1 rounded-full bg-[var(--accent-red)] px-1.5 text-[10px] text-white">{unread.data.unreadCount}</span>
+                ) : null}
               </IconButton>
               <IconButton label="Open profile menu" onClick={() => setProfileOpen(true)}>
-                <UserCircle aria-hidden="true" className="h-5 w-5" />
+                <span className="text-xs font-semibold">{initials(auth.user?.name)}</span>
               </IconButton>
             </div>
             <nav aria-label="Top modules" className="mt-3 flex gap-2 overflow-x-auto pb-1">
@@ -219,9 +229,19 @@ export function AppShell({ children }: { children: ReactNode }) {
       </div>
 
       <Modal open={profileOpen} title="Profile" onClose={() => setProfileOpen(false)}>
-        <p className="text-sm leading-6 text-[var(--text-secondary)]">
-          Manage account preferences, role context, and workspace settings from one focused menu.
-        </p>
+        <div className="space-y-4 text-sm text-[var(--text-secondary)]">
+          <div>
+            <p className="font-medium text-white">{auth.user?.name}</p>
+            <p>{auth.user?.email}</p>
+            <p>{auth.user ? roleLabel(auth.user.role) : "Unknown role"}</p>
+            {auth.user?.departmentName ? <p>{auth.user.departmentName}</p> : null}
+          </div>
+          <Button variant="danger" onClick={auth.logout}>Log out</Button>
+        </div>
+      </Modal>
+
+      <Modal open={notificationsOpen} title="Notifications" onClose={() => setNotificationsOpen(false)}>
+        <NotificationPreview />
       </Modal>
     </div>
   );
@@ -231,11 +251,13 @@ function SidebarContent({
   collapsed,
   onNavigate,
   navRef,
+  role,
   mobile = false
 }: {
   collapsed: boolean;
   onNavigate: () => void;
   navRef?: React.RefObject<HTMLElement | null>;
+  role?: UserRole;
   mobile?: boolean;
 }) {
   return (
@@ -250,13 +272,16 @@ function SidebarContent({
         </span>
       </Link>
       <nav ref={navRef} aria-label={mobile ? "Mobile primary" : "Primary"} className="flex-1 overflow-y-auto p-3">
-        {navGroups.map((group) => (
+        {navGroups.map((group) => {
+          const items = group.items.filter((item) => !item.roles || (role && item.roles.includes(role)));
+          if (items.length === 0) return null;
+          return (
           <div key={group.label} className="mb-4">
             <p className="sidebar-group-label mb-2 px-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)]">
               {collapsed ? "" : group.label}
             </p>
             <div className="space-y-1">
-              {group.items.map((item) => {
+              {items.map((item) => {
                 const Icon = item.icon;
                 return (
                   <NavLink
@@ -289,9 +314,26 @@ function SidebarContent({
               })}
             </div>
           </div>
-        ))}
+        );})}
       </nav>
     </>
+  );
+}
+
+function NotificationPreview() {
+  const notifications = useApiResource<any[]>("/notifications", { query: { limit: 5 } });
+  if (notifications.status === "loading") return <p className="text-sm text-[var(--text-secondary)]">Loading notifications...</p>;
+  if (notifications.status === "error") return <p className="text-sm text-[var(--accent-red)]">Unable to load notifications.</p>;
+  if (!notifications.data.length) return <p className="text-sm text-[var(--text-secondary)]">No notifications yet.</p>;
+  return (
+    <div className="space-y-3">
+      {notifications.data.map((item) => (
+        <div key={item.id} className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface-alt)] p-3">
+          <p className="text-sm font-medium text-white">{item.title}</p>
+          <p className="mt-1 text-sm text-[var(--text-secondary)]">{item.message}</p>
+        </div>
+      ))}
+    </div>
   );
 }
 

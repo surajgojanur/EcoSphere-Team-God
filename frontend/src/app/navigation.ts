@@ -21,12 +21,14 @@ import {
   Users,
   type LucideIcon
 } from "lucide-react";
+import type { UserRole } from "../api/client";
 
 export type NavItem = {
   label: string;
   path: string;
   icon: LucideIcon;
   description: string;
+  roles?: UserRole[];
 };
 
 export type NavGroup = {
@@ -157,19 +159,22 @@ export const navGroups: NavGroup[] = [
         label: "Departments",
         path: "/admin/departments",
         icon: Building2,
-        description: "Department settings"
+        description: "Department settings",
+        roles: ["ADMIN"]
       },
       {
         label: "Categories",
         path: "/admin/categories",
         icon: ListChecks,
-        description: "Activity categories"
+        description: "Activity categories",
+        roles: ["ADMIN"]
       },
       {
         label: "Settings",
         path: "/settings",
         icon: Settings,
-        description: "ESG configuration"
+        description: "ESG configuration",
+        roles: ["ADMIN"]
       }
     ]
   }

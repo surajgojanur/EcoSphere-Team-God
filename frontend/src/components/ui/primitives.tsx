@@ -157,14 +157,15 @@ export function Badge({
   return <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${tones[tone]}`}>{children}</span>;
 }
 
-export function Input(props: InputHTMLAttributes<HTMLInputElement>) {
+export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(function Input(props, ref) {
   return (
     <input
+      ref={ref}
       className="min-h-10 rounded-lg border border-[var(--border)] bg-[var(--bg-surface-alt)] px-3 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-blue)]"
       {...props}
     />
   );
-}
+});
 
 export function Select(props: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
