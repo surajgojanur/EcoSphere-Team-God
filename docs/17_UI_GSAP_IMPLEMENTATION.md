@@ -86,6 +86,7 @@ A task may become [x] only after:
   - [ ] Department ranking
   - [ ] Recent activity feed
   - [ ] Dashboard animation polish
+  - [ ] Add route-level lazy loading before full ESG feature pages are implemented
 
 ### PHASE 4 - Environmental module
 
@@ -187,3 +188,4 @@ A task may become [x] only after:
 - 2026-07-12: Do not use ScrollTrigger in Phase 1 because pages are shell/dashboard surfaces without meaningful long-scroll storytelling.
 - 2026-07-12: Keep dark enterprise theme from existing UI guidelines and add motion/design tokens around it.
 - 2026-07-12: Treat the Vite production chunk-size warning as a Phase 3+ code-splitting risk, not a Phase 1 blocker.
+- 2026-07-12: Current build passes, but Vite reports a chunk larger than 500 kB; route-level lazy loading is tracked before full ESG feature pages are implemented.
