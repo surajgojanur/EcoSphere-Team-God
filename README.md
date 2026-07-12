@@ -75,4 +75,28 @@ The current baseline provides:
 - `/health` process check and `/ready` database connectivity check
 - Docker Compose health checks, service dependencies, named volumes, and hot reload
 
-No ESG business modules are implemented in this foundation task.
+## Backend MVP Implementation
+
+The backend implementation branch adds PostgreSQL-backed MVP modules for authentication, RBAC, departments, categories, ESG settings, environmental accounting, Product ESG Profiles, operational emissions, CSR workflows, diversity/training records, policies, audits, compliance, challenges, badges, rewards, notifications, activity logs, scores, dashboard data, reports, CSV exports, and protected admin jobs.
+
+Useful backend commands:
+
+```bash
+cd backend
+npm run contract:validate
+npm run prisma:generate
+npx prisma validate
+npm run typecheck
+npm test
+npm run build
+npm run seed
+```
+
+Demo accounts seeded by `npm run seed`:
+
+- `admin@ecosphere.demo`
+- `manager@ecosphere.demo`
+- `employee@ecosphere.demo`
+- `auditor@ecosphere.demo`
+
+Demo credentials are for local development only.

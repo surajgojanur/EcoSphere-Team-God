@@ -126,3 +126,16 @@ Validation notes from 2026-07-12 on Fedora 44 with SELinux Enforcing:
 
 ---
 **Next:** [14_DEMO_SCRIPT.md](./14_DEMO_SCRIPT.md)
+
+## 8. Backend MVP Automated Validation
+
+- [x] `npm run contract:validate`
+- [x] `npx prisma validate`
+- [x] `npm run prisma:generate`
+- [x] `npm run typecheck`
+- [x] `npm test`
+- [x] `npm run build`
+- [ ] Clean PostgreSQL migration deploy
+- [ ] Seed script run twice without duplicate data
+- [ ] Reward last-stock concurrency test
+- [ ] Representative API smoke flow

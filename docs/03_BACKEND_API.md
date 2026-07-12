@@ -254,3 +254,11 @@ Approved changes and clarifications:
 
 ---
 **Next:** [04_FRONTEND_PAGES.md](./04_FRONTEND_PAGES.md)
+
+## Backend MVP Implementation Status
+
+- The implementation branch adds persisted Prisma-backed handlers for non-deferred `/api/v1` MVP routes in `contracts/openapi.yaml`.
+- Responses use accepted success, paginated success, and error envelopes with `meta.requestId`.
+- Authentication uses Bearer JWT access tokens only; no refresh or server logout endpoint is implemented.
+- Decimal values are serialized as strings through shared response serialization.
+- Implementation tracker: [19_BACKEND_IMPLEMENTATION_TRACKER](./19_BACKEND_IMPLEMENTATION_TRACKER.md)

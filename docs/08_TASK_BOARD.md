@@ -237,3 +237,17 @@
 
 ---
 **Next:** [09_TEAM_ASSIGNMENTS.md](./09_TEAM_ASSIGNMENTS.md)
+
+## BACKEND-MVP-01 — Complete Backend MVP Implementation
+
+- **Priority**: P0 · **Owner**: Backend · **Dependencies**: BACKEND-CONTRACT-01
+- **Tracker**: [19_BACKEND_IMPLEMENTATION_TRACKER](./19_BACKEND_IMPLEMENTATION_TRACKER.md)
+- [x] Add Prisma domain schema and additive migration
+- [x] Add idempotent seed script
+- [x] Add shared request ID, response envelope, validation, auth, RBAC, and error infrastructure
+- [x] Implement persisted handlers for auth, users, departments, categories, settings, environmental, social, governance, gamification, notifications, activity logs, scoring, dashboard, reports, and admin jobs
+- [x] Pass contract validation, Prisma validation, typecheck, current tests, and production build
+- [ ] Verify clean PostgreSQL migration deploy
+- [ ] Verify seed idempotency twice against PostgreSQL
+- [ ] Run representative end-to-end API smoke flow
+- [ ] Add full workflow and concurrency test coverage

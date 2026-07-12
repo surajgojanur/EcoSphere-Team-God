@@ -416,3 +416,7 @@ npx prisma db seed                           # runs seed.ts
 
 ---
 **Next:** [03_BACKEND_API.md](./03_BACKEND_API.md)
+
+## Backend MVP Implementation Note
+
+The Prisma schema now contains the accepted MVP model inventory from `docs/18_BACKEND_DECISIONS.md`, including Product ESG Profiles, operational emission events, diversity snapshots, training records, POINTS/XP reward accounting, notifications, activity logs, and department score history.

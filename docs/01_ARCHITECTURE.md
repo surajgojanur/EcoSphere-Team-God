@@ -179,3 +179,7 @@ Triggers: compliance issue raised, CSR/Challenge approval decision, policy ackno
 
 ---
 **Next:** [02_DATABASE_SCHEMA.md](./02_DATABASE_SCHEMA.md)
+
+## Backend MVP Implementation Note
+
+The backend implementation uses Express 5, TypeScript ESM, Prisma/PostgreSQL, Zod validation, Bearer JWT authentication, route-level RBAC, request IDs, response envelopes, and centralized Prisma/error normalization.

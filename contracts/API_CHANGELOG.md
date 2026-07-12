@@ -1,5 +1,12 @@
 # EcoSphere API Changelog
 
+## 2026-07-12 - Backend MVP Implementation
+
+- Implemented persisted backend handlers for the accepted non-deferred MVP routes without changing auth paths, roles, envelopes, or Decimal string conventions.
+- Added Prisma domain schema, additive migration, seed data, request IDs, JWT authentication, RBAC, validation, error normalization, and CSV export support.
+- Added runtime implementation for operational emissions, Product ESG Profiles, diversity, training, reward redemption, scores, dashboards, reports, notifications, activity logs, and protected admin jobs.
+- No refresh-token, server logout, multipart upload, PDF export, or Excel export endpoint was added.
+
 ## 2026-07-12 - Backend Phase 0 Contract Freeze
 
 - Added `contracts/openapi.yaml` as the MVP API contract source of truth.
