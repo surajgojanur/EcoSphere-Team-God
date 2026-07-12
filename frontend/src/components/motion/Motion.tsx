@@ -224,7 +224,7 @@ export function MotionCard({
           const enter = contextSafe(() => {
             gsap.to(element, {
               y: -4,
-              boxShadow: "0 18px 60px rgba(0, 0, 0, 0.28)",
+              boxShadow: "var(--shadow-hover)",
               duration: motion.duration.fast,
               ease: motion.ease.enter
             });
@@ -243,7 +243,7 @@ export function MotionCard({
             tiltY(0);
             gsap.to(element, {
               y: 0,
-              boxShadow: "0 12px 36px rgba(0, 0, 0, 0.18)",
+              boxShadow: "none",
               duration: motion.duration.normal,
               ease: motion.ease.enter
             });

@@ -44,6 +44,36 @@ export type WorkflowStep = {
   path: string;
 };
 
+export type GamificationPreview = {
+  xp: {
+    previousEarned: number;
+    earned: number;
+    target: number;
+    streak: number;
+    completedChallenges: number;
+  };
+  lifecycle: Array<{
+    label: string;
+    status: "complete" | "active" | "pending";
+  }>;
+  badges: Array<{
+    name: string;
+    unlockRule: string;
+    tone: "success" | "info" | "warning";
+  }>;
+  leaderboard: Array<{
+    rank: number;
+    name: string;
+    department: string;
+    xp: number;
+  }>;
+  rewards: Array<{
+    name: string;
+    points: number;
+    stock: string;
+  }>;
+};
+
 export function getDashboardPreview() {
   return {
     summaryCards: [
@@ -155,6 +185,48 @@ export function getDashboardPreview() {
         description: "Turn the operating view into management-ready ESG summaries.",
         path: "/reports"
       }
-    ] satisfies WorkflowStep[]
+    ] satisfies WorkflowStep[],
+    gamification: {
+      xp: {
+        previousEarned: 2140,
+        earned: 2840,
+        target: 3600,
+        streak: 14,
+        completedChallenges: 9
+      },
+      lifecycle: [
+        { label: "Draft", status: "complete" },
+        { label: "Active", status: "active" },
+        { label: "Under Review", status: "pending" },
+        { label: "Completed", status: "pending" }
+      ],
+      badges: [
+        {
+          name: "Carbon Cutter",
+          unlockRule: "2,500 XP earned",
+          tone: "success"
+        },
+        {
+          name: "Proof Builder",
+          unlockRule: "5 approved proofs",
+          tone: "info"
+        },
+        {
+          name: "Goal Keeper",
+          unlockRule: "3 completed challenges",
+          tone: "warning"
+        }
+      ],
+      leaderboard: [
+        { rank: 1, name: "Aarav Mehta", department: "Logistics", xp: 2840 },
+        { rank: 2, name: "Maya Shah", department: "Manufacturing", xp: 2710 },
+        { rank: 3, name: "Ishaan Rao", department: "Corporate", xp: 2460 }
+      ],
+      rewards: [
+        { name: "Green commute pass", points: 900, stock: "12 left" },
+        { name: "CSR day credit", points: 1400, stock: "5 left" },
+        { name: "Eco kit", points: 650, stock: "24 left" }
+      ]
+    } satisfies GamificationPreview
   };
 }

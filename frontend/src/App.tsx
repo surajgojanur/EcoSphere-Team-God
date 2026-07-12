@@ -4,6 +4,7 @@ import { AppShell } from "./components/layout/AppShell";
 import { DashboardPage } from "./pages/DashboardPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
 import { AuthPage } from "./pages/AuthPage";
+import { GamificationPage } from "./pages/GamificationPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 
 const placeholderRoutes = [
@@ -12,10 +13,6 @@ const placeholderRoutes = [
   "/environmental/goals",
   "/social/csr-activities",
   "/social/participations",
-  "/gamification/challenges",
-  "/gamification/badges",
-  "/gamification/rewards",
-  "/gamification/leaderboard",
   "/governance/policies",
   "/governance/audits",
   "/governance/compliance",
@@ -33,6 +30,11 @@ function ShellRoute({ children }: { children: ReactNode }) {
 function PlaceholderRoute() {
   const location = useLocation();
   return <PlaceholderPage path={location.pathname} />;
+}
+
+function GamificationRoute() {
+  const location = useLocation();
+  return <GamificationPage path={location.pathname} />;
 }
 
 function App() {
@@ -56,6 +58,17 @@ function App() {
           element={
             <ShellRoute>
               <PlaceholderRoute />
+            </ShellRoute>
+          }
+        />
+      ))}
+      {["/gamification/challenges", "/gamification/badges", "/gamification/rewards", "/gamification/leaderboard"].map((path) => (
+        <Route
+          key={path}
+          path={path}
+          element={
+            <ShellRoute>
+              <GamificationRoute />
             </ShellRoute>
           }
         />

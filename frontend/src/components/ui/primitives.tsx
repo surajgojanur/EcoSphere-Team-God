@@ -11,6 +11,9 @@ import { gsap, useGSAP } from "../../lib/gsap";
 import { mediaQueries, motion } from "../../styles/motion";
 
 type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
+type CardVariant = "primary" | "nested" | "raised";
+type CardDensity = "comfortable" | "compact" | "spacious";
+type BadgeTone = "success" | "warning" | "danger" | "info" | "neutral" | "critical" | "high" | "medium" | "low";
 
 export const Button = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
@@ -33,13 +36,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLBut
   };
   const { contextSafe } = useGSAP();
   const base =
-    "button-motion inline-flex min-h-10 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-blue)] disabled:cursor-not-allowed disabled:opacity-45";
+    "button-motion inline-flex min-h-10 items-center justify-center gap-2 rounded-[var(--radius-sm)] px-4 py-2 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)] disabled:cursor-not-allowed disabled:opacity-45";
   const variants = {
-    primary: "bg-[var(--accent-green)] text-[#07120b] hover:bg-[#6ce692]",
+    primary: "bg-[var(--accent-green)] text-[var(--text-inverse)] hover:bg-[#6ce692]",
     secondary:
-      "border border-[var(--border)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-[var(--accent-blue)]",
-    ghost: "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-alt)] hover:text-[var(--text-primary)]",
-    danger: "bg-[var(--accent-red)] text-white hover:bg-[#ff7777]"
+      "border border-[var(--border)] bg-[var(--surface-primary)] text-[var(--text-primary)] hover:border-[var(--focus-ring)] hover:bg-[var(--surface-raised)]",
+    ghost: "text-[var(--text-secondary)] hover:bg-[var(--surface-nested)] hover:text-[var(--text-primary)]",
+    danger: "bg-[var(--status-danger-text)] text-white hover:bg-[#ff8585]"
   };
 
   useGSAP(() => {
@@ -131,12 +134,27 @@ export const IconButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTM
 
 export function Card({
   children,
-  className = ""
+  className = "",
+  variant = "primary",
+  density = "comfortable"
 }: {
   children: ReactNode;
   className?: string;
+  variant?: CardVariant;
+  density?: CardDensity;
 }) {
-  return <section className={`rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] p-5 shadow-soft ${className}`}>{children}</section>;
+  const variants = {
+    primary: "border-[var(--border)] bg-[var(--surface-primary)]",
+    nested: "border-[var(--border)] bg-[var(--surface-nested)]",
+    raised: "border-[var(--border-strong)] bg-[var(--surface-raised)] shadow-soft"
+  };
+  const densities = {
+    compact: "p-3 sm:p-4",
+    comfortable: "p-4 sm:p-5",
+    spacious: "p-4 sm:p-6"
+  };
+
+  return <section className={`rounded-[var(--radius-md)] border ${variants[variant]} ${densities[density]} ${className}`}>{children}</section>;
 }
 
 export function Badge({
@@ -144,23 +162,27 @@ export function Badge({
   tone = "neutral"
 }: {
   children: ReactNode;
-  tone?: "success" | "warning" | "danger" | "info" | "neutral";
+  tone?: BadgeTone;
 }) {
   const tones = {
-    success: "bg-[rgba(63,207,110,0.15)] text-[var(--accent-green)]",
-    warning: "bg-[rgba(245,197,66,0.15)] text-[var(--accent-yellow)]",
-    danger: "bg-[rgba(255,92,92,0.15)] text-[var(--accent-red)]",
-    info: "bg-[rgba(79,155,255,0.15)] text-[var(--accent-blue)]",
-    neutral: "bg-[rgba(154,157,168,0.15)] text-[var(--text-secondary)]"
+    success: "border-[var(--status-success-border)] bg-[var(--status-success-bg)] text-[var(--status-success-text)]",
+    warning: "border-[var(--status-warning-border)] bg-[var(--status-warning-bg)] text-[var(--status-warning-text)]",
+    danger: "border-[var(--status-danger-border)] bg-[var(--status-danger-bg)] text-[var(--status-danger-text)]",
+    info: "border-[var(--status-info-border)] bg-[var(--status-info-bg)] text-[var(--status-info-text)]",
+    neutral: "border-[var(--status-neutral-border)] bg-[var(--status-neutral-bg)] text-[var(--status-neutral-text)]",
+    critical: "border-[var(--status-danger-border)] bg-[var(--status-danger-bg)] text-[var(--status-danger-text)]",
+    high: "border-[var(--status-high-border)] bg-[var(--status-high-bg)] text-[var(--status-high-text)]",
+    medium: "border-[var(--status-warning-border)] bg-[var(--status-warning-bg)] text-[var(--status-warning-text)]",
+    low: "border-[var(--status-info-border)] bg-[var(--status-info-bg)] text-[var(--status-info-text)]"
   };
 
-  return <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${tones[tone]}`}>{children}</span>;
+  return <span className={`inline-flex max-w-full rounded-full border px-2.5 py-1 text-xs font-medium leading-4 ${tones[tone]}`}>{children}</span>;
 }
 
 export function Input(props: InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
-      className="min-h-10 rounded-lg border border-[var(--border)] bg-[var(--bg-surface-alt)] px-3 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-blue)]"
+      className="min-h-10 w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-nested)] px-3 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] hover:border-[var(--border-strong)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)] disabled:cursor-not-allowed disabled:opacity-45"
       {...props}
     />
   );
@@ -169,19 +191,19 @@ export function Input(props: InputHTMLAttributes<HTMLInputElement>) {
 export function Select(props: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <select
-      className="min-h-10 rounded-lg border border-[var(--border)] bg-[var(--bg-surface-alt)] px-3 text-sm text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-blue)]"
+      className="min-h-10 w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-nested)] px-3 text-sm text-[var(--text-primary)] hover:border-[var(--border-strong)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)] disabled:cursor-not-allowed disabled:opacity-45"
       {...props}
     />
   );
 }
 
 export function Skeleton({ className = "" }: { className?: string }) {
-  return <div className={`animate-pulse rounded-lg bg-[rgba(255,255,255,0.08)] ${className}`} />;
+  return <div className={`animate-pulse rounded-[var(--radius-sm)] bg-[var(--surface-muted)] ${className}`} />;
 }
 
 export function LoadingState({ label = "Loading" }: { label?: string }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] p-5 text-sm text-[var(--text-secondary)]">
+    <div className="flex items-center gap-3 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface-primary)] p-5 text-sm text-[var(--text-secondary)]">
       <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin text-[var(--accent-green)]" />
       <span>{label}</span>
     </div>
@@ -196,10 +218,12 @@ export function EmptyState({
   description: string;
 }) {
   return (
-    <Card className="text-center">
-      <h2 className="text-base font-medium text-[var(--text-primary)]">{title}</h2>
+    <div className="rounded-[var(--radius-md)] border border-dashed border-[var(--border)] bg-[var(--surface-nested)] p-6 text-center">
+      <h2 className="heading-copy text-xl font-bold text-[var(--text-primary)]">
+        <HighlightedHeadingText title={title} highlightClassName="heading-highlight-sm" />
+      </h2>
       <p className="mt-2 text-sm text-[var(--text-secondary)]">{description}</p>
-    </Card>
+    </div>
   );
 }
 
@@ -211,8 +235,10 @@ export function ErrorState({
   description: string;
 }) {
   return (
-    <Card className="border-[rgba(255,92,92,0.35)]">
-      <h2 className="text-base font-medium text-[var(--accent-red)]">{title}</h2>
+    <Card className="border-[var(--status-danger-border)]" variant="nested">
+      <h2 className="heading-copy text-xl font-bold text-[var(--status-danger-text)]">
+        <HighlightedHeadingText title={title} highlightClassName="heading-highlight-sm" />
+      </h2>
       <p className="mt-2 text-sm text-[var(--text-secondary)]">{description}</p>
     </Card>
   );
@@ -231,12 +257,14 @@ export function PageHeader({
 }) {
   return (
     <header className="page-reveal flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-green)]">{eyebrow}</p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-normal text-white md:text-[28px]">{title}</h1>
+      <div className="min-w-0">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--accent-green)]">{eyebrow}</p>
+        <h1 className="heading-copy mt-2 text-[clamp(1.75rem,1.35rem+1.4vw,2.5rem)] font-bold leading-[1.05] tracking-normal text-white">
+          <HighlightedHeadingText title={title} highlightClassName="heading-highlight-lg" />
+        </h1>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-[var(--text-secondary)]">{description}</p>
       </div>
-      {actions ? <div className="flex shrink-0 gap-3">{actions}</div> : null}
+      {actions ? <div className="grid w-full shrink-0 grid-cols-1 gap-2 sm:w-auto sm:grid-flow-col sm:auto-cols-max">{actions}</div> : null}
     </header>
   );
 }
@@ -250,8 +278,33 @@ export function SectionHeader({
 }) {
   return (
     <div className="mb-4">
-      <h2 className="text-base font-medium text-[var(--text-primary)]">{title}</h2>
+      <h2 className="heading-copy text-xl font-bold text-[var(--text-primary)]">
+        <HighlightedHeadingText title={title} highlightClassName="heading-highlight-sm" />
+      </h2>
       {description ? <p className="mt-1 text-sm text-[var(--text-secondary)]">{description}</p> : null}
     </div>
+  );
+}
+
+export function HighlightedHeadingText({
+  title,
+  highlightClassName
+}: {
+  title: string;
+  highlightClassName: string;
+}) {
+  const words = title.trim().split(/\s+/);
+  const highlight = words.pop();
+  const lead = words.join(" ");
+
+  if (!highlight) {
+    return <>{title}</>;
+  }
+
+  return (
+    <>
+      {lead ? `${lead} ` : null}
+      <span className={`heading-highlight ${highlightClassName}`}>{highlight}</span>
+    </>
   );
 }

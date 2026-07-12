@@ -10,7 +10,7 @@ export function NotFoundPage() {
         description="The route you opened is not part of the EcoSphere workspace map."
         actions={
           <Link
-            className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[var(--accent-green)] px-4 py-2 text-sm font-medium text-[#07120b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-blue)]"
+            className="inline-flex min-h-10 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--accent-green)] px-4 py-2 text-sm font-medium text-[var(--text-inverse)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
             to="/dashboard"
           >
             Back to dashboard
