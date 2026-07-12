@@ -183,7 +183,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               </div>
               <label className="hidden w-full max-w-xs items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-3 lg:flex">
                 <Search aria-hidden="true" className="h-4 w-4 text-[var(--text-muted)]" />
-                <Input aria-label="Search placeholder" className="border-0 bg-transparent px-0 focus-visible:outline-0" placeholder="Search ESG records" />
+                <Input aria-label="Search ESG records" className="border-0 bg-transparent px-0 focus-visible:outline-0" placeholder="Search ESG records" />
               </label>
               <HealthIndicator status={backendHealth.status} />
               <IconButton label="Notifications">
@@ -218,9 +218,9 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </div>
 
-      <Modal open={profileOpen} title="Profile menu placeholder" onClose={() => setProfileOpen(false)}>
+      <Modal open={profileOpen} title="Profile" onClose={() => setProfileOpen(false)}>
         <p className="text-sm leading-6 text-[var(--text-secondary)]">
-          Authentication and profile actions are planned for Phase 2. This modal verifies the shared motion, focus, and Escape-close behavior.
+          Manage account preferences, role context, and workspace settings from one focused menu.
         </p>
       </Modal>
     </div>
@@ -325,7 +325,7 @@ function HealthIndicator({ status }: { status: "loading" | "connected" | "error"
 
   return (
     <span ref={ref} className={`hidden rounded-full px-2.5 py-1 text-xs font-medium sm:inline-flex ${tone[status]}`}>
-      Backend {status}
+      System {status}
     </span>
   );
 }

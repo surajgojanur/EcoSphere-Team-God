@@ -189,102 +189,102 @@ export const routeTitles: Record<string, { title: string; eyebrow: string; descr
   "/login": {
     title: "Log in",
     eyebrow: "Authentication",
-    description: "Phase 2 will connect this page to JWT authentication."
+    description: "Access the ESG command center."
   },
   "/register": {
     title: "Register",
     eyebrow: "Authentication",
-    description: "Employee-only registration placeholder for Phase 2."
+    description: "Create an employee account for ESG participation."
   },
   "/dashboard": {
     title: "ESG Command Center",
     eyebrow: "Dashboard",
-    description: "A polished Phase 1 preview using mock data until dashboard APIs are ready."
+    description: "Monitor ESG health, risk, participation, and report readiness from one operating view."
   },
   "/environmental/emission-factors": {
     title: "Emission Factors",
     eyebrow: "Environmental",
-    description: "Manage factor values and units after the API contract is implemented."
+    description: "Maintain the measurement references used to interpret carbon activity."
   },
   "/environmental/carbon-transactions": {
     title: "Carbon Transactions",
     eyebrow: "Environmental",
-    description: "Future transaction tables will rely on server-side emission calculations."
+    description: "Review operational carbon activity by department, source, quantity, and date."
   },
   "/environmental/goals": {
     title: "Environmental Goals",
     eyebrow: "Environmental",
-    description: "Goal progress placeholders are ready for Phase 4 implementation."
+    description: "Track sustainability targets, deadlines, ownership, and progress risk."
   },
   "/social/csr-activities": {
     title: "CSR Activities",
     eyebrow: "Social",
-    description: "Activity cards, joining states, and approvals arrive in Phase 5."
+    description: "Discover and manage employee participation in sustainability initiatives."
   },
   "/social/participations": {
     title: "Participations",
     eyebrow: "Social",
-    description: "Approval queue shell for ESG manager workflows."
+    description: "Review participation status, evidence, and approval decisions."
   },
   "/gamification/challenges": {
     title: "Challenges",
     eyebrow: "Gamification",
-    description: "Challenge state filters and participation flows are planned for Phase 5."
+    description: "Encourage focused ESG actions through structured participation goals."
   },
   "/gamification/badges": {
     title: "Badges",
     eyebrow: "Gamification",
-    description: "Badge gallery shell, with unlock logic remaining server-owned."
+    description: "Recognize meaningful employee contribution to sustainability outcomes."
   },
   "/gamification/rewards": {
     title: "Rewards",
     eyebrow: "Gamification",
-    description: "Reward redemption UI will never own stock or point deduction rules."
+    description: "Browse responsible recognition options tied to employee contribution."
   },
   "/gamification/leaderboard": {
     title: "Leaderboard",
     eyebrow: "Gamification",
-    description: "Leaderboard presentation placeholder for API-backed rankings."
+    description: "Compare participation momentum across employees and departments."
   },
   "/governance/policies": {
     title: "Policies",
     eyebrow: "Governance",
-    description: "Policy acknowledgement flows are reserved for governance implementation."
+    description: "Manage governance requirements, acknowledgement status, and policy context."
   },
   "/governance/audits": {
     title: "Audits",
     eyebrow: "Governance",
-    description: "Audit lifecycle UI will follow documented role permissions."
+    description: "Review audit scope, ownership, timing, findings, and follow-up."
   },
   "/governance/compliance": {
     title: "Compliance Issues",
     eyebrow: "Governance",
-    description: "Compliance ownership and overdue flags remain backend authoritative."
+    description: "Track severity, ownership, due dates, and resolution of governance risk."
   },
   "/reports": {
     title: "Reports",
     eyebrow: "Reports",
-    description: "Fixed report shells for environmental, social, governance, and ESG summary."
+    description: "Turn ESG activity into executive-ready environmental, social, governance, and summary reports."
   },
   "/notifications": {
     title: "Notifications",
     eyebrow: "Operations",
-    description: "Notification list shell for future API polling."
+    description: "Review important updates, approvals, risks, and completed actions."
   },
   "/admin/departments": {
     title: "Departments",
     eyebrow: "Administration",
-    description: "Department CRUD placeholder for Admin-only settings."
+    description: "Maintain the organizational structure used across ESG reporting."
   },
   "/admin/categories": {
     title: "Categories",
     eyebrow: "Administration",
-    description: "Category CRUD placeholder for CSR and challenge classification."
+    description: "Organize activities, challenges, and records into consistent categories."
   },
   "/settings": {
     title: "Settings",
     eyebrow: "Administration",
-    description: "ESG configuration and notification preference shell."
+    description: "Configure ESG preferences, notification behavior, and system defaults."
   }
 };
 

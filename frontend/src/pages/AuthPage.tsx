@@ -14,8 +14,8 @@ export function AuthPage({ mode }: { mode: "login" | "register" }) {
           </span>
           <PageHeader
             eyebrow="EcoSphere"
-            title={isLogin ? "Log in to the ESG command center" : "Create an employee account"}
-            description="Authentication is scheduled for Phase 2. This placeholder preserves routing, design language and accessibility structure."
+            title={isLogin ? "Enter the ESG command center" : "Create your EcoSphere account"}
+            description="Track sustainability performance, manage governance risk, and connect daily participation to executive-ready ESG reporting."
           />
         </div>
         <Card>
@@ -30,7 +30,7 @@ export function AuthPage({ mode }: { mode: "login" | "register" }) {
               <Input className="mt-2 w-full" type="password" placeholder="Minimum 8 characters" />
             </label>
             <Button className="w-full" type="button">
-              {isLogin ? "Log in placeholder" : "Register placeholder"}
+              {isLogin ? "Log in" : "Create account"}
             </Button>
           </form>
           <p className="mt-4 text-sm text-[var(--text-secondary)]">

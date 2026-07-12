@@ -4,7 +4,7 @@ import { type BackendHealthState, fetchBackendHealth } from "../api/health";
 export function useBackendHealth() {
   const [state, setState] = useState<BackendHealthState>({
     status: "loading",
-    message: "Checking backend health..."
+    message: "Checking system status..."
   });
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export function useBackendHealth() {
           message:
             error instanceof Error
               ? error.message
-              : "Unable to reach backend health endpoint."
+              : "Unable to reach the system status service."
         });
       }
     }
