@@ -54,7 +54,7 @@ describe("App", () => {
     await user.click(trigger);
 
     const dialog = await screen.findByRole("dialog", {
-      name: /Profile menu placeholder/i
+      name: /Profile/i
     });
     const closeButton = within(dialog).getByRole("button", {
       name: /Close dialog/i
@@ -74,7 +74,7 @@ describe("App", () => {
     await waitFor(() =>
       expect(
         screen.queryByRole("dialog", {
-          name: /Profile menu placeholder/i
+          name: /Profile/i
         })
       ).not.toBeInTheDocument()
     );

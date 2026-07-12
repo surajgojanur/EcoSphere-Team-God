@@ -274,7 +274,7 @@ export function MotionCard({
 }
 
 /**
- * AnimatedNumber is a Phase 1 placeholder for future counter tweens.
+ * AnimatedNumber centralizes metric formatting for future counter tweens.
  * Reduced motion displays the final string immediately.
  * Cleanup is handled by useGSAP context reversion.
  */
