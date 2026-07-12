@@ -1,29 +1,40 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
 
-describe("App", () => {
-  it("renders the EcoSphere dashboard shell", async () => {
-    vi.stubGlobal(
-      "fetch",
-      vi.fn(() =>
-        Promise.resolve({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              status: "ok",
-              timestamp: "2026-07-12T00:00:00.000Z"
-            })
-        })
-      )
-    );
+function mockHealthFetch() {
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            status: "ok",
+            timestamp: "2026-07-12T00:00:00.000Z"
+          })
+      })
+    )
+  );
+}
 
-    render(
-      <MemoryRouter initialEntries={["/dashboard"]}>
-        <App />
-      </MemoryRouter>
-    );
+function renderDashboard() {
+  return render(
+    <MemoryRouter initialEntries={["/dashboard"]}>
+      <App />
+    </MemoryRouter>
+  );
+}
+
+describe("App", () => {
+  beforeEach(() => {
+    mockHealthFetch();
+  });
+
+  it("renders the EcoSphere dashboard shell", async () => {
+    renderDashboard();
 
     expect(
       await screen.findByRole("heading", {
@@ -31,5 +42,78 @@ describe("App", () => {
       })
     ).toBeInTheDocument();
     expect(screen.getByRole("navigation", { name: /Primary/i })).toBeInTheDocument();
+  });
+
+  it("traps modal focus, closes with Escape, and restores focus", async () => {
+    const user = userEvent.setup();
+    renderDashboard();
+
+    await screen.findByRole("heading", { name: /ESG Command Center/i });
+    const trigger = screen.getByRole("button", { name: /Open profile menu/i });
+
+    await user.click(trigger);
+
+    const dialog = await screen.findByRole("dialog", {
+      name: /Profile menu placeholder/i
+    });
+    const closeButton = within(dialog).getByRole("button", {
+      name: /Close dialog/i
+    });
+
+    await waitFor(() => expect(closeButton).toHaveFocus());
+    expect(document.body.style.overflow).toBe("hidden");
+
+    await user.tab();
+    expect(closeButton).toHaveFocus();
+
+    await user.tab({ shift: true });
+    expect(closeButton).toHaveFocus();
+
+    await user.keyboard("{Escape}");
+
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("dialog", {
+          name: /Profile menu placeholder/i
+        })
+      ).not.toBeInTheDocument()
+    );
+    expect(trigger).toHaveFocus();
+    expect(document.body.style.overflow).toBe("");
+  });
+
+  it("traps mobile drawer focus, closes with Escape, and restores focus", async () => {
+    const user = userEvent.setup();
+    renderDashboard();
+
+    await screen.findByRole("heading", { name: /ESG Command Center/i });
+    const trigger = screen.getByRole("button", { name: /Open navigation/i });
+
+    await user.click(trigger);
+
+    const dialog = await screen.findByRole("dialog", {
+      name: /EcoSphere navigation/i
+    });
+    const closeButton = within(dialog).getByRole("button", {
+      name: /Close navigation/i
+    });
+
+    await waitFor(() => expect(closeButton).toHaveFocus());
+    expect(document.body.style.overflow).toBe("hidden");
+
+    await user.tab({ shift: true });
+    expect(dialog).toContainElement(document.activeElement as HTMLElement);
+
+    await user.keyboard("{Escape}");
+
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("dialog", {
+          name: /EcoSphere navigation/i
+        })
+      ).not.toBeInTheDocument()
+    );
+    expect(trigger).toHaveFocus();
+    expect(document.body.style.overflow).toBe("");
   });
 });
