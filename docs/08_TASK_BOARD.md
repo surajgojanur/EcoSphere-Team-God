@@ -26,6 +26,30 @@
   - [ ] `.env.example` committed
 - **Acceptance Criteria**: all 4 devs can `docker compose up` and hit `localhost:4000/health` → 200
 
+### SETUP-00 — Docker development baseline
+- **Priority**: P0 · **Owner**: Dev 1 · **Dependencies**: none · **Estimate**: 45 min
+- Checklist:
+  - [x] Create frontend Dockerfile
+  - [x] Create backend Dockerfile
+  - [x] Configure PostgreSQL service
+  - [x] Add persistent database volume
+  - [x] Add service health checks
+  - [x] Add environment variable template
+  - [x] Add backend `/health` endpoint
+  - [x] Add backend `/ready` endpoint with real database query
+  - [x] Add minimal frontend backend-status page
+  - [x] Keep host `node_modules` out of containers
+  - [x] Document startup and reset commands
+  - [x] Verify local backend test/typecheck/build scripts
+  - [x] Verify local frontend test/typecheck/build scripts
+  - [x] Validate Docker Compose on a machine with Docker installed
+  - [x] Verify frontend-to-backend connectivity through browser
+  - [x] Verify backend-to-database connectivity through running container
+  - [ ] Verify setup on Apple Silicon macOS
+  - [ ] Verify setup on Intel macOS
+  - [x] Verify setup on Fedora with SELinux enforcing
+- **Acceptance Criteria**: from a clean clone, `cp .env.example .env && docker compose up --build` starts `db`, `backend`, and `frontend`; frontend is reachable at `localhost:3000`; backend `/health` returns 200; backend `/ready` confirms PostgreSQL connectivity; PostgreSQL data persists in the `postgres_data` named volume.
+
 ### AUTH-01 — Signup/Login API + JWT middleware
 - **Priority**: P0 · **Owner**: Dev 1 · **Dependencies**: SETUP-01 · **Estimate**: 45 min
 - Checklist:

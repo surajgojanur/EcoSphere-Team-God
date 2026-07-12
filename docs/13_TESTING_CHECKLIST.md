@@ -3,6 +3,43 @@
 > Related: [05_BUSINESS_RULES](./05_BUSINESS_RULES.md) · [07_ROLE_PERMISSIONS](./07_ROLE_PERMISSIONS.md)
 > Given the 8-hour constraint, testing is manual only — no automated test suite is in MVP scope.
 
+## 0. Foundation / Docker Baseline
+
+- [x] `backend npm test` passes locally
+- [x] `backend npm run typecheck` passes locally
+- [x] `backend npm run build` passes locally
+- [x] `frontend npm test` passes locally
+- [x] `frontend npm run typecheck` passes locally
+- [x] `frontend npm run build` passes locally
+- [x] `.env` is ignored by Git
+- [x] `docker-compose.yml` parses as YAML
+- [ ] `docker compose config` succeeds on a machine with Docker installed
+- [x] `docker compose build --no-cache` succeeds on a machine with Docker installed
+- [x] `docker compose up -d` starts `db`, `backend`, and `frontend`
+- [x] `docker compose ps` shows healthy services
+- [x] `docker compose exec -T db pg_isready` succeeds
+- [x] `curl --fail http://localhost:4000/health` succeeds
+- [x] `curl --fail http://localhost:4000/ready` confirms database connectivity
+- [x] `curl --fail http://localhost:3000` returns the frontend
+- [x] Frontend page displays backend connection success
+- [x] Frontend displays backend connection success after backend restart
+- [x] Backend hot reload reflects source edits in `/health`
+- [x] Frontend hot reload reflects source edits in Chromium-rendered DOM
+- [x] Restarting the stack preserves PostgreSQL data
+- [x] `docker compose down` followed by `docker compose up -d` preserves PostgreSQL data when volumes are not deleted
+- [x] Logs checked for permission errors and secret exposure
+- [ ] Verify setup on Apple Silicon macOS
+- [ ] Verify setup on Intel macOS
+- [x] Verify setup on Fedora with SELinux enforcing
+
+Validation notes from 2026-07-12 on Fedora 44 with SELinux Enforcing:
+
+- Existing containerized backend and frontend tests, type checks, and builds passed.
+- PostgreSQL persistence was verified with the `system_status` marker key `persistence_validation` across `db` restart and `docker compose down` / `docker compose up -d` without `-v`.
+- SELinux bind mounts were verified by reading and writing temporary files in backend and frontend `/app` mounts; mounts showed `seclabel`.
+- Chromium checks used `timeout 20s`; no timeout exit code `124` occurred.
+- Log review found no permission errors and no actual secret values. A generic dotenv tip containing the word `secrets` appeared, but no secret material was logged.
+
 ## 1. Manual Testing — Auth
 
 - [ ] Signup creates a user with role EMPLOYEE regardless of any client-side tampering
