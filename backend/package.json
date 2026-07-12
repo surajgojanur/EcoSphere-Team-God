@@ -9,6 +9,7 @@
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "node --test --import tsx tests/*.test.ts",
+    "contract:validate": "node scripts/validate-contract.mjs",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy"
   },
