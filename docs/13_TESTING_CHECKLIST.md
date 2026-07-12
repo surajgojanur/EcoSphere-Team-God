@@ -82,6 +82,13 @@ Validation notes from 2026-07-12 on Fedora 44 with SELinux Enforcing:
 - [x] Navigation works between dashboard and placeholder routes
 - [x] Mobile drawer opens and Escape closes it
 - [x] Modal opens and Escape closes it
+- [x] Modal focus enters the dialog when opened
+- [x] Modal Tab and Shift+Tab stay inside the dialog
+- [x] Modal returns focus to its trigger after close
+- [x] Mobile drawer focus enters the drawer when opened
+- [x] Mobile drawer Tab and Shift+Tab stay inside the drawer
+- [x] Mobile drawer returns focus to its trigger after close
+- [x] Overlay background scrolling is locked while a modal/drawer is open
 - [x] Skip-to-content link is first keyboard focus target
 - [x] Reduced-motion rendering reveals content without large transforms
 - [x] 375px mobile layout verified without horizontal overflow

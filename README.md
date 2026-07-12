@@ -38,6 +38,23 @@ docker compose logs -f frontend
 docker compose down
 ```
 
+Refresh dependency volumes after lockfile changes:
+
+```bash
+# When frontend/package-lock.json changes
+docker compose run --rm frontend npm ci
+docker compose restart frontend
+
+# When backend/package-lock.json changes
+docker compose run --rm backend npm ci
+docker compose restart backend
+```
+
+The Compose setup uses named `node_modules` volumes. Those volumes can retain
+older dependencies even after a lockfile changes. The commands above refresh
+only the dependency volume for the affected service and keep PostgreSQL data
+intact.
+
 Reset local database data only when you deliberately want to delete it:
 
 ```bash
@@ -45,7 +62,7 @@ docker compose down -v
 ```
 
 `docker compose down -v` removes the named PostgreSQL volume and deletes local
-development database data.
+development database data. Do not use it for routine dependency refresh.
 
 ## Development Baseline
 
